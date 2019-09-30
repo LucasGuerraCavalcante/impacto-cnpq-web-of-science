@@ -9,4 +9,24 @@
 ##   **• Resultados**
 > **1. Impacto do fomento do CNPq no número de artigos indexados na Web of Science por ano de publicação.**
 
-![Imgur](https://imgur.com/LSPGIGG)
+![grafico1](https://github.com/LucasGuerraCavalcante/impacto-cnpq-web-of-science/blob/master/plots/grafico1.PNG)
+
+![grafico2](https://github.com/LucasGuerraCavalcante/impacto-cnpq-web-of-science/blob/master/plots/grafico2.PNG)
+
+![grafico3](https://github.com/LucasGuerraCavalcante/impacto-cnpq-web-of-science/blob/master/plots/grafico3.PNG)
+
+Notas: 
+
+1 - A contagem dos dados considera o número de artigos que contenham autores brasileiros;
+
+2 - A contagem não considera cofinaciamento, podendo haver dupla contagem;
+
+> **2. Acumulado da nacionalidade e filiação institucional dos artigos fomentados pelo CNPq.**
+
+![grafico4](https://github.com/LucasGuerraCavalcante/impacto-cnpq-web-of-science/blob/master/plots/grafico4.PNG)
+
+![grafico5](https://github.com/LucasGuerraCavalcante/impacto-cnpq-web-of-science/blob/master/plots/grafico5.PNG)
+
+Nota: 
+
+1 - A contagem não considera mais de uma filiação, podendo haver dupla contagem.
