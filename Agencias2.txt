@@ -1,0 +1,12 @@
+CAPES,58473
+FAPESP,42899
+FAPERJ,12431
+FAPMIG,11742
+STFC Reino Unido,4809
+NSF Estados Unidos,3604
+CERN Europa,1818
+INFN Itália,1776
+NSFC China,1758
+DFG Alemanha,1687
+Fundação Araucária,1653
+Outros,21081

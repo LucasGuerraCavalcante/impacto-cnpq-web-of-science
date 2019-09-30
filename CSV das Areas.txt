@@ -1,0 +1,7 @@
+Ciencias Exatas e da Terra,93067
+Ciencias Biológicas,70497
+Engenharias,36668
+Ciencias da Saúde,61983
+Ciências Agrárias,15364
+Ciências Humanas e Sociais Aplicadas,5573
+Linguistica e Artes,93

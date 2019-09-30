@@ -1,0 +1,153 @@
+---
+output: html_document
+---
+
+```{r include=FALSE}
+library(tidyr)
+library(dplyr)
+library(ggplot2)
+library(stringr)
+```
+
+# **Indicador de Efetividade**
+
+## Relatório de impacto do fomento do CNPq no número de publicações de artigos segundo o Web of Science.
+
+##   **• Metodologia**
+
+> Os dados para a confecção dos gráficos foram coletados a partir da plataforma “Web of Science”, utilizando um filtro especifico para “Agencias Financiadoras” dentro do ambiente “Pesquisas avanças” disponível no próprio site. A extração de dados foi feita durante a primeira semana de Fevereiro de 2019, e foram considerados apenas os dados de 2008 até 2019, que foram extraídos diretamente do site a partir do download de arquivos CSV contendo de duas a três colunas de dados. Algumas modificações matemáticas, tais como somas de informações duplicadas e arrendamentos foram feitos para facilitar a analise, além disso, modificações estruturais nos arquivos CSV, para corrigir má formatações e facilitar a leitura, também foram feitas. 
+
+##   **• Resultados**
+> **1. Impacto do fomento do CNPq no número de artigos indexados na Web of Science por ano de publicação.**
+
+```{r include=FALSE}
+df <- read.csv('data/todos.csv', sep=',', header=FALSE)
+```
+
+```{r include=FALSE}
+grafico1 <- ggplot(df, aes(x = V1, y = V3)) + 
+  geom_line(aes(color = V2), size = 1) +
+  scale_color_manual(values = c("#3E2CD6","#2177B0","#B616D9"))   +
+  scale_x_continuous(breaks = seq(min(df$V1), max(df$V1))) +
+  geom_point(aes(size = V2 == "CNPq"), show.legend = FALSE)  +
+  geom_text(aes(label=ifelse(V2 == "CNPq", V3, "")), nudge_y = 1000) + ylab("Quantidade de Artigos Publicados") +
+  scale_size_manual(values=c(-1,1)) +  theme_minimal() + theme(legend.title = element_blank(), axis.title.x=element_blank(), axis.text.y=element_blank(), axis.text.x = element_text(color="black"))
+```
+
+```{r echo=FALSE}
+grafico1 
+```
+
+```{r include=FALSE}
+df2 <- read.csv('data/todosbrasil.csv', sep=',', header=FALSE)
+```
+
+```{r include=FALSE}
+grafico2 <- ggplot(df2, aes(x = V1, y = V3)) + 
+  geom_line(aes(color = V2), size = 1) +
+  scale_color_manual(values = c("#56FA4B" ,"#3E2CD6","#2177B0","#B616D9")) +
+  geom_point(aes(size = V2 == "Brasil"), show.legend = FALSE)  +
+  geom_text(aes(label=ifelse(V2 == "Brasil", V3, "")), nudge_y = 4000) +
+  scale_x_continuous(breaks = seq(min(df$V1), max(df$V1))) +
+ ylab("Quantidade de Artigos Publicados") +
+  scale_size_manual(values=c(-1,1)) + theme_minimal() + theme(legend.title = element_blank(), axis.title.x=element_blank(), axis.text.y=element_blank(), axis.text.x = element_text(color="black"))
+```
+
+```{r echo=FALSE}
+grafico2
+```
+
+```{r include=FALSE}
+brasilxcnpq <- read.csv('data/brasilxcnpq.csv', sep=',', header=FALSE)
+```
+
+```{r include=FALSE}
+
+ct = 1
+listabr <- c()
+listacnpq <- c()
+
+while (ct != (nrow(brasilxcnpq)/2)+1) {
+  
+  pcnpq <- as.integer((((brasilxcnpq[ct+12,3])*100)/brasilxcnpq[ct,3]))
+  
+  pbr <- 100 - pcnpq
+  
+  pcnpq <- paste(str_extract(as.character(pcnpq),"^.{2}"), "%", sep = "")
+  
+  pbr <- paste(str_extract(as.character(pbr),"^.{2}"), "%", sep = "")
+  
+  listabr <- c(listabr, pbr)
+  
+  listacnpq <- c(listacnpq, pcnpq)
+  
+  ct = ct + 1
+}
+
+brasilxcnpq <- cbind(brasilxcnpq, porcent = c(listabr, listacnpq))
+
+rm(listabr)
+rm(listacnpq)
+rm(ct)
+rm(pbr)
+rm(pcnpq)
+```
+
+```{r include=FALSE}
+grafico3 <- ggplot(data=brasilxcnpq, aes(x=V1, y=V3, fill=V2)) +
+  geom_bar(stat="identity") +
+  scale_x_continuous(breaks = seq(min(df$V1), max(df$V1))) +
+  ylab("Quantidade de Artigos Publicados") +
+    scale_fill_manual(values=c("#56FA4B", "#2177B0")) +
+  theme_minimal() + theme(legend.title = element_blank(),axis.title.y=element_blank(),axis.text.x=element_blank(), axis.text.y = element_text(color="black")) +
+     geom_text(aes(label = ifelse(brasilxcnpq$V2 == "CNPq", as.character(brasilxcnpq$porcent), "")), 
+    hjust = -0.1, size = 4,
+    position = position_dodge(width = 1),
+    inherit.aes = TRUE, vjust=1) + coord_flip()
+```
+
+```{r echo=FALSE}
+grafico3
+```
+
+Notas: 
+
+1 - A contagem dos dados considera o número de artigos que contenham autores brasileiros;
+
+2 - A contagem não considera cofinaciamento, podendo haver dupla contagem;
+
+> **2. Acumulado da nacionalidade e filiação institucional dos artigos fomentados pelo CNPq.**
+
+```{r include=FALSE}
+universidades <- read.csv('data/Organizações.csv', sep=';', header=FALSE)
+```
+
+```{r include=FALSE}
+grafico4 <- ggplot(data=universidades, aes(x=reorder(V1,-V2), y=V2, fill = V2)) +
+  geom_bar(width=0.8, stat="identity") + coord_flip() +
+  ylab("Quantidade de Artigos Publicados") +
+  theme_minimal() + theme(legend.title = element_blank(),axis.title.y=element_blank(),axis.text.x=element_text(color="black"), axis.text.y = element_text(color="black")) + geom_text(aes(label = universidades$V2), size = 3.5, vjust=0.4, hjust=1, color="black")
+```
+
+```{r echo=FALSE}
+grafico4
+```
+
+```{r include=FALSE}
+paises <- read.csv('data/Países.csv', sep=',', header=FALSE)
+```
+
+```{r include=FALSE}
+grafico5 <- ggplot(data=paises, aes(x=reorder(V1,-V2), y=V2, fill = V2)) +
+  geom_bar(width=0.8, stat="identity") + coord_flip() +
+  ylab("Quantidade de Artigos Publicados") +
+  theme_minimal() + theme(legend.title = element_blank(),axis.title.y=element_blank(),axis.text.x=element_text(color="black"), axis.text.y = element_text(color="black")) + geom_text(aes(label = paises$V2), size = 3.5, vjust=0.4, hjust=1, color="black")
+```
+
+```{r echo=FALSE}
+grafico5
+```
+
+Nota: 
+
+1 - A contagem não considera mais de uma filiação, podendo haver dupla contagem.
