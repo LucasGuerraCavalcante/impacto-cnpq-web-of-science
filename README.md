@@ -9,4 +9,4 @@
 ##   **• Resultados**
 > **1. Impacto do fomento do CNPq no número de artigos indexados na Web of Science por ano de publicação.**
 
-![grafico1](https://imgur.com/a/e7zBKxs)
+![Imgur](https://imgur.com/LSPGIGG)
