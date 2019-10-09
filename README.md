@@ -1,3 +1,11 @@
+# Descrição
+
+Relatório de impacto do fomento do CNPq no número de publicações de artigos segundo o Web of Science.
+
+# Description
+
+Report about the CNPq (Brazilian National Council for Scientific and Technological Development) funded scientific papers impact according to Web of Science data
+
 # **Indicador de Efetividade**
 
 ## Relatório de impacto do fomento do CNPq no número de publicações de artigos segundo o Web of Science.
